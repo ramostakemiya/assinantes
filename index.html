@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Área de Assinantes | Miya & Maya Paper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --lilac-deep:#5B3E82;
+    --lilac-mid:#9B7FC7;
+    --lilac-soft:#E6DEF5;
+    --cream:#FBF8F4;
+    --plum:#2E2140;
+    --gold:#C9A85C;
+    --white:#FFFFFF;
+    --shadow: 0 12px 32px rgba(91,62,130,0.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Outfit',sans-serif;
+    background:var(--cream);
+    color:var(--plum);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Playfair Display',serif;font-weight:600;color:var(--lilac-deep);}
+  img{max-width:100%;display:block;}
+  .container{max-width:640px;margin:0 auto;padding:0 24px;}
+  button{cursor:pointer;font-family:'Outfit',sans-serif;}
+
+  /* ---------- GATE ---------- */
+  #gate{
+    position:fixed;inset:0;z-index:100;
+    background:linear-gradient(160deg, var(--lilac-deep), #7A5AA8 55%, var(--lilac-mid));
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;
+  }
+  .gate-card{
+    background:var(--white);
+    border-radius:24px;
+    padding:44px 32px;
+    max-width:380px;
+    width:100%;
+    text-align:center;
+    box-shadow:0 24px 60px rgba(0,0,0,0.25);
+  }
+  .gate-emoji{font-size:38px;margin-bottom:12px;}
+  .gate-card h1{font-size:26px;margin-bottom:8px;}
+  .gate-card p{font-size:14px;color:#7A6D8C;margin-bottom:24px;}
+  #gate-input{
+    width:100%;
+    padding:14px 16px;
+    border:1.5px solid var(--lilac-soft);
+    border-radius:12px;
+    font-size:15px;
+    text-align:center;
+    letter-spacing:1px;
+    margin-bottom:12px;
+    outline:none;
+    transition:border-color .2s;
+  }
+  #gate-input:focus{border-color:var(--lilac-mid);}
+  #gate-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:var(--lilac-deep);
+    color:#fff;
+    font-size:15px;
+    font-weight:600;
+    transition:background .2s;
+  }
+  #gate-btn:hover{background:#4a3269;}
+  #gate-error{
+    color:#C0568A;
+    font-size:13px;
+    margin-top:10px;
+    min-height:16px;
+  }
+  .gate-hint{margin-top:20px;font-size:12px;color:#B0A4C4;}
+
+  /* ---------- MAIN ---------- */
+  #main{display:none;}
+  .banner{
+    width:100%;
+    aspect-ratio:1080/608;
+    overflow:hidden;
+    background:var(--lilac-soft);
+  }
+  .banner img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .hero{
+    background:linear-gradient(180deg, var(--lilac-soft) 0%, var(--cream) 100%);
+    padding:56px 0 40px;
+    text-align:center;
+  }
+  .hero-badge{
+    display:inline-block;
+    background:var(--white);
+    color:var(--lilac-deep);
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    padding:6px 16px;
+    border-radius:100px;
+    box-shadow:var(--shadow);
+    margin-bottom:18px;
+  }
+  .hero h1{font-size:32px;line-height:1.25;margin-bottom:14px;}
+  .hero p{font-size:15px;color:#6B5D80;max-width:420px;margin:0 auto;}
+  .hero-paws{font-size:22px;margin-top:20px;letter-spacing:8px;opacity:.7;}
+
+  /* Steps */
+  .steps{padding:44px 0 8px;}
+  .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .step{
+    background:var(--white);
+    border-radius:16px;
+    padding:20px 12px;
+    text-align:center;
+    box-shadow:var(--shadow);
+  }
+  .step-icon{font-size:24px;margin-bottom:8px;}
+  .step h3{font-size:13px;color:var(--plum);font-family:'Outfit',sans-serif;font-weight:600;margin-bottom:4px;}
+  .step p{font-size:11.5px;color:#8A7D9C;}
+
+  /* Cupons */
+  .coupons{margin-top:52px;}
+  .coupon-grid{display:flex;flex-direction:column;gap:14px;}
+  .coupon-card{
+    background:var(--white);
+    border-radius:16px;
+    padding:20px 22px;
+    box-shadow:var(--shadow);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .coupon-left{display:flex;align-items:center;gap:14px;}
+  .coupon-icon{
+    width:42px;height:42px;
+    border-radius:12px;
+    background:var(--lilac-soft);
+    display:flex;align-items:center;justify-content:center;
+    font-size:19px;
+    flex-shrink:0;
+  }
+  .coupon-info h4{font-size:14.5px;font-weight:600;color:var(--plum);}
+  .coupon-info span{font-size:12px;color:#9789AE;}
+  .coupon-code{
+    background:var(--lilac-soft);
+    color:var(--lilac-deep);
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:1px;
+    padding:10px 18px;
+    border-radius:10px;
+    border:1.5px dashed var(--lilac-mid);
+    min-width:120px;
+    text-align:center;
+  }
+
+  /* Section titles */
+  .section-title{
+    font-size:22px;
+    text-align:center;
+    margin:52px 0 6px;
+  }
+  .section-sub{
+    text-align:center;
+    font-size:13.5px;
+    color:#8A7D9C;
+    margin-bottom:28px;
+  }
+
+  /* Month accordion */
+  .month{
+    background:var(--white);
+    border-radius:16px;
+    margin-bottom:14px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .month-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:20px 22px;
+    background:none;
+    border:none;
+    width:100%;
+    text-align:left;
+  }
+  .month-header-left{display:flex;align-items:center;gap:12px;}
+  .month-tag{
+    background:var(--lilac-soft);
+    color:var(--lilac-deep);
+    font-size:11px;
+    font-weight:700;
+    padding:4px 10px;
+    border-radius:8px;
+    letter-spacing:.5px;
+  }
+  .month-header h3{font-family:'Playfair Display',serif;font-size:18px;color:var(--plum);font-weight:600;}
+  .month-chevron{
+    font-size:18px;
+    color:var(--lilac-mid);
+    transition:transform .25s;
+  }
+  .month.open .month-chevron{transform:rotate(180deg);}
+  .month-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .35s ease;
+  }
+  .month.open .month-body{max-height:1400px;}
+  .month-body-inner{padding:0 22px 22px;display:flex;flex-direction:column;gap:10px;}
+
+  .item-card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:var(--cream);
+    border:1px solid #F0E9F7;
+    border-radius:12px;
+    padding:13px 14px;
+  }
+  .item-icon{
+    width:38px;height:38px;
+    border-radius:10px;
+    background:var(--lilac-soft);
+    display:flex;align-items:center;justify-content:center;
+    font-size:17px;
+    flex-shrink:0;
+  }
+  .item-info{flex:1;min-width:0;}
+  .item-info h4{font-size:13.5px;font-weight:600;color:var(--plum);}
+  .item-info span{font-size:11.5px;color:#9789AE;}
+  .item-btn{
+    background:var(--lilac-deep);
+    color:#fff;
+    border:none;
+    font-size:12px;
+    font-weight:600;
+    padding:9px 14px;
+    border-radius:9px;
+    white-space:nowrap;
+    text-decoration:none;
+    flex-shrink:0;
+  }
+  .item-btn:hover{background:#4a3269;}
+
+  /* Support note */
+  .support-note{
+    background:var(--lilac-soft);
+    border-radius:16px;
+    padding:22px 24px;
+    margin-top:40px;
+    text-align:center;
+  }
+  .support-note h3{font-size:15px;margin-bottom:6px;}
+  .support-note p{font-size:13px;color:#5B4A72;}
+  .support-note a{color:var(--lilac-deep);font-weight:600;}
+
+  /* FAQ */
+  .faq{margin-top:52px;}
+  .faq-item{
+    border-bottom:1px solid #EADFF5;
+    padding:16px 0;
+  }
+  .faq-q{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    width:100%;
+    background:none;
+    border:none;
+    text-align:left;
+    font-size:14.5px;
+    font-weight:600;
+    color:var(--plum);
+  }
+  .faq-q span.plus{color:var(--lilac-mid);font-size:18px;transition:transform .2s;}
+  .faq-item.open .plus{transform:rotate(45deg);}
+  .faq-a{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .3s ease;
+    font-size:13.5px;
+    color:#7A6D8C;
+  }
+  .faq-item.open .faq-a{max-height:300px;padding-top:10px;}
+
+  footer{
+    text-align:center;
+    padding:48px 24px 40px;
+    margin-top:20px;
+  }
+  footer p{font-size:12px;color:#B0A4C4;margin-bottom:6px;}
+  footer a{color:var(--lilac-deep);font-weight:600;text-decoration:none;}
+  .footer-warning{font-size:11px;color:#C0568A;margin-top:16px;}
+
+  @media(max-width:420px){
+    .steps-grid{gap:10px;}
+    .hero h1{font-size:26px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ GATE ============ -->
+<div id="gate">
+  <div class="gate-card">
+    <div class="gate-emoji">💜</div>
+    <h1>Área exclusiva<br>para assinantes</h1>
+    <p>Digite a senha que você recebeu no seu canal de assinantes do Instagram.</p>
+    <input type="password" id="gate-input" placeholder="Senha de acesso" autocomplete="off">
+    <button id="gate-btn" onclick="checkPassword()">Entrar</button>
+    <div id="gate-error"></div>
+    <div class="gate-hint">Não recebeu a senha? Manda um direct pra mim 🤍</div>
+  </div>
+</div>
+
+<!-- ============ MAIN ============ -->
+<div id="main">
+
+  <div class="banner">
+    <img src="1.JPG" alt="Banner área de assinantes">
+  </div>
+
+  <section class="hero">
+    <div class="container">
+      <span class="hero-badge">Miya & Maya Paper · Assinantes</span>
+      <h1>Bem-vinda à sua<br>área de assinante</h1>
+      <p>Aqui você encontra todos os arquivos e vídeos exclusivos, organizados por mês, sempre atualizados.</p>
+      <div class="hero-paws">🐾 🐾 🐾</div>
+    </div>
+  </section>
+
+  <section class="steps">
+    <div class="container">
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-icon">📅</div>
+          <h3>Escolha o mês</h3>
+          <p>Abra o mês que você quer ver</p>
+        </div>
+        <div class="step">
+          <div class="step-icon">⬇️</div>
+          <h3>Baixe os arquivos</h3>
+          <p>Clique no botão e salve no seu drive</p>
+        </div>
+        <div class="step">
+          <div class="step-icon">🎬</div>
+          <h3>Assista aos vídeos</h3>
+          <p>Conteúdo exclusivo pra você</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <h2 class="section-title">Biblioteca de conteúdo</h2>
+    <p class="section-sub">Organizado por mês · o mais recente sempre no topo</p>
+
+    <!-- MÊS ATUAL (aberto por padrão) -->
+    <div class="month open">
+      <button class="month-header" onclick="toggleMonth(this)">
+        <div class="month-header-left">
+          <span class="month-tag">NOVO</span>
+          <h3>Julho 2026</h3>
+        </div>
+        <span class="month-chevron">▾</span>
+      </button>
+      <div class="month-body">
+        <div class="month-body-inner">
+          <div class="item-card">
+            <div class="item-icon">🎬</div>
+            <div class="item-info"><h4>Vídeo bastidores — Julho - Ainda não disponível</h4><span>Vídeo exclusivo</span></div>
+            <a class="item-btn" href="#" target="_blank">Assistir</a>
+          </div>
+          <div class="item-card">
+            <div class="item-icon">📁</div>
+            <div class="item-info"><h4>Kit de arquivos — Julho</h4><span>Pasta no Google Drive</span></div>
+            <a class="item-btn" href="https://drive.google.com/drive/folders/1KpqwpXqp04Go8CMNiMcfIVVciy3pAPfn?usp=sharing" target="_blank">Baixar</a>
+          </div>
+          <div class="item-card">
+            <div class="item-icon">🎁</div>
+            <div class="item-info"><h4>Bônus do mês</h4><span>Arquivo extra</span></div>
+            <a class="item-btn" href="#" target="_blank">Baixar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MÊS ANTERIOR (fechado) -->
+    <div class="month">
+      <button class="month-header" onclick="toggleMonth(this)">
+        <div class="month-header-left">
+          <h3>Junho 2026</h3>
+        </div>
+        <span class="month-chevron">▾</span>
+      </button>
+      <div class="month-body">
+        <div class="month-body-inner">
+          <div class="item-card">
+            <div class="item-icon">🎬</div>
+            <div class="item-info"><h4>Vídeo bastidores — Junho - ainda não disponível</h4><span>Vídeo exclusivo</span></div>
+            <a class="item-btn" href="#" target="_blank">Assistir</a>
+          </div>
+          <div class="item-card">
+            <div class="item-icon">📁</div>
+            <div class="item-info"><h4>Kit de arquivos — Junho</h4><span>Pasta no Google Drive</span></div>
+            <a class="item-btn" href="https://drive.google.com/drive/folders/1P1yFODZXLRs_ns-J1JEgXw6F8-DdJloy?usp=sharing" target="_blank">Baixar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MÊS ANTERIOR (fechado) -->
+    <div class="month">
+      <button class="month-header" onclick="toggleMonth(this)">
+        <div class="month-header-left">
+          <h3>Maio 2026</h3>
+        </div>
+        <span class="month-chevron">▾</span>
+      </button>
+      <div class="month-body">
+        <div class="month-body-inner">
+          <div class="item-card">
+            <div class="item-icon">🎬</div>
+            <div class="item-info"><h4>Vídeo bastidores — Maio - ainda não disponível</h4><span>Vídeo exclusivo</span></div>
+            <a class="item-btn" href="#" target="_blank">Assistir</a>
+          </div>
+          <div class="item-card">
+            <div class="item-icon">📁</div>
+            <div class="item-info"><h4>Kit de arquivos — Maio</h4><span>Pasta no Google Drive</span></div>
+            <a class="item-btn" href="https://drive.google.com/drive/folders/1b79AeOPaVtyrNi3eMDdH8Dtl9GcgvBvC?usp=sharing" target="_blank">Baixar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="coupons">
+      <h2 class="section-title" style="margin-top:0;">Cupons exclusivos de assinante</h2>
+      <p class="section-sub">Use em qualquer compra nas lojas parceiras</p>
+      <div class="coupon-grid">
+        <div class="coupon-card">
+          <div class="coupon-left">
+            <div class="coupon-icon">💜</div>
+            <div class="coupon-info"><h4>Hubla</h4><span>Desconto exclusivo assinante</span></div>
+          </div>
+          <div class="coupon-code">PRESENTE</div>
+        </div>
+        <div class="coupon-card">
+          <div class="coupon-left">
+            <div class="coupon-icon">🛍️</div>
+            <div class="coupon-info"><h4>Etsy</h4><span>Desconto exclusivo assinante</span></div>
+          </div>
+          <div class="coupon-code">BRASIL</div>
+        </div>
+        <div class="coupon-card">
+          <div class="coupon-left">
+            <div class="coupon-icon">✂️</div>
+            <div class="coupon-info"><h4>Silhouette Brasil</h4><span>Desconto exclusivo assinante</span></div>
+          </div>
+          <div class="coupon-code">SBANDREARAMOS</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="support-note">
+      <h3>🤍 Algum link não abriu?</h3>
+      <p>Me chama no direct <a href="https://instagram.com/andrearamos.art" target="_blank">@andrearamos.art</a> que eu resolvo rapidinho pra você.</p>
+    </div>
+
+    <div class="faq">
+      <h2 class="section-title" style="margin-top:0;">Perguntas frequentes</h2>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Como eu cancelo minha assinatura?<span class="plus">+</span></button>
+        <div class="faq-a">O cancelamento é feito direto pelo Instagram, no seu perfil, em Assinaturas. Não precisa falar comigo pra isso.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Com que frequência tem conteúdo novo?<span class="plus">+</span></button>
+        <div class="faq-a">Todo mês tem arquivos e vídeos novos aqui na área de assinantes. Assim que estiver disponível, o mês mais recente aparece no topo.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Posso compartilhar a senha com outra pessoa?<span class="plus">+</span></button>
+        <div class="faq-a">Essa área é exclusiva para quem é assinante. Pedimos para não compartilhar o acesso, assim eu consigo continuar trazendo conteúdo exclusivo de verdade pra vocês.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">O arquivo não abriu, o que eu faço?<span class="plus">+</span></button>
+        <div class="faq-a">Manda um print pro meu direct que eu te mando o link certinho na hora.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>Feito com 🤍 por Miya & Maya Paper</p>
+    <p><a href="https://instagram.com/andrearamos.art" target="_blank">@andrearamos.art</a></p>
+    <p class="footer-warning">Conteúdo exclusivo para assinantes · não compartilhe este acesso</p>
+  </footer>
+
+</div>
+
+<script>
+  // ATUALIZE A SENHA AQUI:
+  const SENHA_CORRETA = "miyaemaya2026";
+
+  function checkPassword(){
+    const input = document.getElementById('gate-input');
+    const error = document.getElementById('gate-error');
+    if(input.value.trim().toLowerCase() === SENHA_CORRETA.toLowerCase()){
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('main').style.display = 'block';
+      sessionStorage.setItem('assinante_ok', '1');
+    } else {
+      error.textContent = 'Senha incorreta, tenta de novo 💜';
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  document.getElementById('gate-input').addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){ checkPassword(); }
+  });
+
+  // Mantém acesso liberado durante a sessão (sem pedir senha de novo ao navegar)
+  window.addEventListener('DOMContentLoaded', function(){
+    if(sessionStorage.getItem('assinante_ok') === '1'){
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('main').style.display = 'block';
+    }
+  });
+
+  function toggleMonth(header){
+    const month = header.parentElement;
+    month.classList.toggle('open');
+  }
+
+  function toggleFaq(btn){
+    const item = btn.parentElement;
+    item.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
